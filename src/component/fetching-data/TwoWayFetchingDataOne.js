@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import styles from '../form.module.css'
 
 const TwoWayFetchingDataOne = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [isNameValid, setIsNameValid] = useState(true)
 
   const nameChangeHandler = (event) => {
     console.log(event.target.value)
@@ -15,20 +17,29 @@ const TwoWayFetchingDataOne = () => {
 
   const formSubmitHandler = (event) => {
     event.preventDefault()
+    if(name.trim() === ''){
+      setIsNameValid(false)
+      return
+    }
+    setIsNameValid(true)
     console.log({name, email})
 
-    // ! this works with regular JS but here we are using double bonding
+    // ! this works with regular JS but here we are using double bonding form 
     // event.target.closest(".form").reset()
 
     setEmail("")
     setName("")
   }
+
+  const inputNameClass = isNameValid ? "input" : "invalid"
+  
   return (
     <form className='form'>
       <h2>Listen to keystroke and update state</h2>
       <div>
         <label htmlFor="name">Name </label>
         <input
+        className={styles[inputNameClass]}
           type="text"
           id="name"
           value={name}
@@ -47,6 +58,7 @@ const TwoWayFetchingDataOne = () => {
       <div>
         <button onClick={formSubmitHandler}>Submit</button>
       </div>
+      <div>{isNameValid ? "" : <p>name can NOT be empty</p>}</div>
     </form>
   )
 }

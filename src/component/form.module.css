@@ -1,0 +1,8 @@
+.input{
+    border: 2px solid black;
+}
+
+.invalid{
+    border-color: red;
+    background-color: lightcoral;
+}
