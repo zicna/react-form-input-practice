@@ -11,6 +11,9 @@ export default function TwoWayFetchingDataTwo() {
       name: nameRef.current.value,
       email: emailRef.current.value,
     })
+
+    // ! NOT BEST PRACTICE 
+    // ! we are directly updating the DOM, we should leave it to React
     nameRef.current.value = ''
     emailRef.current.value = ''
   }
