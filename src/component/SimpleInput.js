@@ -1,41 +1,68 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
 import styles from './SimpleInput.module.css'
 const SimpleInput = () => {
   const nameRef = useRef('')
-  const [name, setName] = useState('')
-  const [isNameValid, setIsNameValid] = useState(true)
-//   const [wasNameVisited, setWasNameVisited ] = useState(false)
+  const [enteredName, setEnteredName] = useState('')
+  const [enteredNameIsValid, setEnteredNameIsValid] = useState(false)
+  const [enteredNameTouched, setEnteredNameTouched] = useState(false)
 
   const formSubmitHandler = (event) => {
     event.preventDefault()
-    if (nameRef.current.value === '') {
-      setIsNameValid(false)
+    setEnteredNameTouched(true)
+    
+    if (enteredName.trim() === '') {
+      enteredNameIsValid(false)
       return
     }
-    setIsNameValid(true)
-    setName(nameRef.current.value)
-
+    setEnteredNameIsValid(true)
+    
     console.log({
-      name: nameRef.current.value,
+      name: enteredName,
     })
-    setName("")
+    
+    setEnteredNameTouched(false)
+    setEnteredNameIsValid(false)
+    setEnteredName('')
   }
 
   const nameChangeHandler = (event) => {
-    setName(event.target.value)
+   console.log("entered name changed")
+   if(event.target.value.trim() === ""){
+    setEnteredName(event.target.value)
+    setEnteredNameIsValid(false)
+    setEnteredNameTouched(true)
+  }else{
+    setEnteredName(event.target.value)
+    setEnteredNameIsValid(true)
+    setEnteredNameTouched(true)
+   }
   }
+
+  const nameLostFocus = () => {
+    console.log("input lost focus")
+    setEnteredNameTouched(true)
+  }
+
+  const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched
   return (
     <div className={styles.formContainer}>
       <form className={styles.form}>
         <div className={styles.formGroup}>
           <label htmlFor="name"></label>
-          <input type="text" id="name" ref={nameRef} value={name} onChange={nameChangeHandler} />
+          <input
+            type="text"
+            id="name"
+            ref={nameRef}
+            value={enteredName}
+            onChange={nameChangeHandler}
+            onBlur={nameLostFocus}
+          />
         </div>
-        <div className={styles.formGroup}>
+        <div className={styles.form}>
           <button onClick={formSubmitHandler}>Submit</button>
         </div>
-        <div>{isNameValid ? '' : 'name can NOT be empty'}</div>
+        <div>{nameInputIsInvalid  ? 'name can NOT be empty' : ''}</div>
       </form>
     </div>
   )
