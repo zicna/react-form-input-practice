@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef} from 'react'
 
 import styles from './SimpleInput.module.css'
 const SimpleInput = () => {
@@ -6,16 +6,11 @@ const SimpleInput = () => {
   const [enteredName, setEnteredName] = useState('')
   const [enteredNameIsValid, setEnteredNameIsValid] = useState(false)
   const [enteredNameTouched, setEnteredNameTouched] = useState(false)
-  const [formIsValid, setFormIsValid] = useState(false)
 
-  useEffect(() => {
+    let formIsValid = false
     if (enteredNameIsValid) {
-      setFormIsValid(true)
-    }else{
-      setFormIsValid(false)
-
+      formIsValid = true
     }
-  }, [enteredNameIsValid])
 
   const formSubmitHandler = (event) => {
     event.preventDefault()
