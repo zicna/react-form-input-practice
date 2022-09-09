@@ -1,36 +1,33 @@
 import { useState } from 'react'
 
-const useInput = () => {
+const useInput = (validationFn) => {
   const [enteredInput, setEnteredInput] = useState('')
-  const [enteredInputIsValid, setEnteredInputIsValid] = useState(false)
   const [inputTouched, setInputTouched] = useState(false)
 
-  const inputChangeHandler = (event) => {
-    setInputTouched(true)
-    setEnteredInput(event.target.value)
-    if (event.target.value === '') {
-      setEnteredInputIsValid(false)
-    } else {
-      setEnteredInputIsValid(true)
-    }
-  }
+  let enteredInputIsValid = validationFn(enteredInput)
 
-  const inputLostFocus = (event) => {
+  const inputChangeHandler = (event) => {
+    console.log("input changed")
     setInputTouched(true)
-    if (enteredInput === '') {
-      setEnteredInputIsValid(false)
-    }
+    enteredInputIsValid = validationFn(event.target.value)
+    setEnteredInput(event.target.value)
+    
+}
+
+const inputLostFocus = (event) => {
+    setInputTouched(true)
+    enteredInputIsValid = validationFn(event.target.value)
   }
 
   const inputIsNotValid = !enteredInputIsValid && inputTouched
 
-  return{
+  return {
     enteredInput,
     enteredInputIsValid,
     inputTouched,
     inputIsNotValid,
     inputChangeHandler,
-    inputLostFocus
+    inputLostFocus,
   }
 }
 

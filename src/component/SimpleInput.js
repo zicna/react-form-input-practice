@@ -15,14 +15,15 @@ const SimpleInput = () => {
     inputTouched,
     inputIsNotValid,
     inputChangeHandler,
-    inputLostFocus} = useInput()
+    inputLostFocus} = useInput((value) => {
+      return value.trim() === "" ? false : true})
 
   let formIsInvalid = true
 
   const nameChangeHandler = (event) => {
     setNameTouched(true)
     setEnteredName(event.target.value)
-    if (event.target.value === '') {
+    if (event.target.value.trim() === '') {
       setEnteredNameIsValid(false)
     } else {
       setEnteredNameIsValid(true)
