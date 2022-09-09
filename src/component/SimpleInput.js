@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
-const SimpleInput = (props) => {
+const SimpleInput = () => {
   const [enteredName, setEnteredName] = useState('')
   const [enteredNameIsValid, setEnteredNameIsValid] = useState(false)
   const [nameTouched, setNameTouched] = useState(false)
-  const [formIsInvalid, setFormIsInvalid] = useState(true)
 
-  useEffect(() => {
-    setFormIsInvalid(!enteredNameIsValid)
-  }, [enteredNameIsValid])
+  let formIsInvalid = true
 
   const nameChangeHandler = (event) => {
     setNameTouched(true)
@@ -47,6 +44,7 @@ const SimpleInput = (props) => {
       setEnteredNameIsValid(false)
     }
   }
+  formIsInvalid = !enteredNameIsValid
 
   const nameIsNotValid = !enteredNameIsValid && nameTouched
 
