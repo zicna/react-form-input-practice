@@ -23,7 +23,9 @@ const inputLostFocus = (event) => {
 
   return {
     enteredInput,
+    setEnteredInput,
     enteredInputIsValid,
+    setInputTouched,
     inputTouched,
     inputIsNotValid,
     inputChangeHandler,

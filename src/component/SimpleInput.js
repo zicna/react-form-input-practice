@@ -1,22 +1,36 @@
 import React, { useState } from 'react'
 import useInput from './hooks/use-input'
 
+import emailValidation from './helpers/email-validation'
+
 const SimpleInput = () => {
   const [enteredName, setEnteredName] = useState('')
   const [enteredNameIsValid, setEnteredNameIsValid] = useState(false)
   const [nameTouched, setNameTouched] = useState(false)
 
-  const [enteredEmail, setEnteredEmail] = useState('')
-  const [enteredEmailIsValid, setEnteredEmailIsValid] = useState(false)
-  const [emailTouched, setEmailTouched] = useState(false)
+  const {
+    enteredInput: enteredEmail,
+    setEnteredInput: setEnteredEmail,
+    enteredInputIsValid: enteredEmailIsValid,
+    inputTouched: emailTouched,
+    setInputTouched: setEmailTouched,
+    inputIsNotValid: emailIsNotValid,
+    inputChangeHandler: emailChangeHandler,
+    inputLostFocus: emailLostFocus,
+  } = useInput(emailValidation)
 
-  const{enteredInput,
+  const {
+    enteredInput,
+    setEnteredInput,
     enteredInputIsValid,
     inputTouched,
+    setInputTouched,
     inputIsNotValid,
     inputChangeHandler,
-    inputLostFocus} = useInput((value) => {
-      return value.trim() === "" ? false : true})
+    inputLostFocus,
+  } = useInput((value) => {
+    return value.trim() === '' ? false : true
+  })
 
   let formIsInvalid = true
 
@@ -32,26 +46,8 @@ const SimpleInput = () => {
 
   const nameLostFocus = (event) => {
     setNameTouched(true)
-    // console.log(event)
     if (enteredName === '') {
       setEnteredNameIsValid(false)
-    }
-  }
-  const emailChangeHandler = (event) => {
-    setEmailTouched(true)
-    setEnteredEmail(event.target.value)
-    if (!event.target.value.includes("@")) {
-      setEnteredEmailIsValid(false)
-    } else {
-      setEnteredEmailIsValid(true)
-    }
-  }
-
-  const emailLostFocus = (event) => {
-    setEmailTouched(true)
-    // console.log(event)
-    if (enteredName === '') {
-      setEnteredEmailIsValid(false)
     }
   }
 
@@ -65,16 +61,15 @@ const SimpleInput = () => {
       setEnteredNameIsValid(false)
       return
     }
-    if(!enteredEmail.includes("@")){
-      setEnteredEmailIsValid(false)
-      return 
+    if (!enteredEmail.includes('@')) {
+      return
     }
-    setEnteredEmailIsValid(true)
     setEnteredNameIsValid(true)
 
     console.log({
       name: enteredName,
-      email: enteredEmail
+      email: enteredEmail,
+      input: enteredInput
     })
 
     setEnteredName('')
@@ -83,12 +78,15 @@ const SimpleInput = () => {
 
     setEnteredEmail('')
     setEmailTouched(false)
-    setEnteredEmailIsValid(false)
+    // setEnteredEmailIsValid(false)
+
+    setEnteredInput('')
+    setInputTouched(false)
   }
 
   const nameIsNotValid = !enteredNameIsValid && nameTouched
-  const emailIsNotValid = !enteredEmailIsValid && emailTouched
-  if(enteredNameIsValid && enteredEmailIsValid && enteredInputIsValid){
+  // const emailIsNotValid = !enteredEmailIsValid && emailTouched
+  if (enteredNameIsValid && enteredEmailIsValid && enteredInputIsValid) {
     formIsInvalid = false
   }
 
