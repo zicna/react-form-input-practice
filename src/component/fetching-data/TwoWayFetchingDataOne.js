@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import styles from '../form.module.css'
 
 const TwoWayFetchingDataOne = () => {
   const [name, setName] = useState('')
@@ -39,7 +38,6 @@ const TwoWayFetchingDataOne = () => {
       <div>
         <label htmlFor="name">Name </label>
         <input
-        className={styles[inputNameClass]}
           type="text"
           id="name"
           value={name}
