@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import useInput from './hooks/use-input'
 
 const SimpleInput = () => {
   const [enteredName, setEnteredName] = useState('')
@@ -8,6 +9,13 @@ const SimpleInput = () => {
   const [enteredEmail, setEnteredEmail] = useState('')
   const [enteredEmailIsValid, setEnteredEmailIsValid] = useState(false)
   const [emailTouched, setEmailTouched] = useState(false)
+
+  const{enteredInput,
+    enteredInputIsValid,
+    inputTouched,
+    inputIsNotValid,
+    inputChangeHandler,
+    inputLostFocus} = useInput()
 
   let formIsInvalid = true
 
@@ -79,7 +87,7 @@ const SimpleInput = () => {
 
   const nameIsNotValid = !enteredNameIsValid && nameTouched
   const emailIsNotValid = !enteredEmailIsValid && emailTouched
-  if(enteredNameIsValid && enteredEmailIsValid){
+  if(enteredNameIsValid && enteredEmailIsValid && enteredInputIsValid){
     formIsInvalid = false
   }
 
@@ -106,6 +114,17 @@ const SimpleInput = () => {
           value={enteredEmail}
         />
         {emailIsNotValid && <p>email can NOT be empty</p>}
+      </div>
+      <div className="form-control">
+        <label htmlFor="input">Your Input</label>
+        <input
+          type="text"
+          id="input"
+          onChange={inputChangeHandler}
+          onBlur={inputLostFocus}
+          value={enteredInput}
+        />
+        {inputIsNotValid && <p>input can NOT be empty</p>}
       </div>
       <div className="form-actions">
         <button disabled={formIsInvalid}>Submit</button>
